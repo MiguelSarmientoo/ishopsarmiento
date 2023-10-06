@@ -6,8 +6,9 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 
 def index(request):
+    categorias = Categoria.objects.all()
     product_list = Producto.objects.order_by('nombre')
-    context = {'product_list': product_list}
+    context = {'product_list': product_list, 'categorias': categorias}
     return render(request, 'index.html', context)
 
 def producto(request):
@@ -53,17 +54,20 @@ def editar_producto(request, producto_id):
 
         # Verificar si se proporcionó una nueva imagen
         if 'image' in request.FILES:
+            # Eliminar la imagen anterior antes de guardar la nueva
+            if producto.image:
+                producto.image.delete()
+
+            # Guardar la nueva imagen
             producto.image = request.FILES['image']
 
         # Guardar los cambios en la base de datos
         producto.save()
 
-        # Imprimir un mensaje para verificar que llegó aquí
-        print("Cambios guardados exitosamente")
-
         return redirect('index')
 
-    context = {'producto': producto}
+    categorias = Categoria.objects.all()
+    context = {'producto': producto, 'categorias': categorias}
     return render(request, 'editar_producto.html', context)
 
 def eliminar_producto(request, producto_id):
@@ -75,3 +79,26 @@ def eliminar_producto(request, producto_id):
 
     # Redirigir a la página principal después de la eliminación
     return HttpResponseRedirect(reverse('index'))
+
+def lista_productos(request):
+    categoria_filtrada = request.GET.get('categoria')
+
+    if categoria_filtrada:
+        productos = Producto.objects.filter(categoria__nombre=categoria_filtrada)
+    else:
+        productos = Producto.objects.all()
+
+    categorias = Categoria.objects.all()
+
+    context = {
+        'productos': productos,
+        'categorias': categorias,
+    }
+
+    return render(request, 'lista_productos.html', context)
+
+def about(request):
+    return render(request, 'about.html')
+
+def contact(request):
+    return render(request, 'contact.html')

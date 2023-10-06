@@ -12,20 +12,20 @@
         body {
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             background-color: #e5e5e5;
-            color: #343a40 !important; /* Agregado !important para incrementar especificidad */
+            color: #343a40 !important;
         }
 
         .list-group-item {
             background-color: #fff;
             border: none;
             border-bottom: 1px solid #dee2e6;
-            color: #000000 !important; /* Agregado !important para incrementar especificidad */
+            color: #000000 !important;
             transition: background-color 0.3s, color 0.3s;
         }
 
         .navbar {
-            background-color: transparent; /* Cambiado a fondo transparente */
-            box-shadow: none; /* Quitado el sombreado */
+            background-color: transparent;
+            box-shadow: none;
         }
 
         .navbar-brand,
@@ -41,7 +41,7 @@
         }
 
         .navbar-nav .nav-link:hover {
-            color: #007bff !important; /* Agregado !important para incrementar especificidad */
+            color: #007bff !important;
         }
 
         .container {
@@ -62,7 +62,6 @@
 </head>
 <body>
 
-    <!-- Navigation -->
     <nav class="navbar navbar-expand-lg fixed-top custom-navbar">
       <div class="container">
           <a class="navbar-brand" href="#">iShop</a>
@@ -71,64 +70,43 @@
               <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarResponsive">
-              <ul class="navbar-nav ml-auto">
-                  <li class="nav-item active">
-                      <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="#">Shop</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="#">About Us</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="#">Contact</a>
-                  </li>
-              </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'about' %}">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+                </li>
+            </ul>            
           </div>
       </div>
   </nav>
     <br><br><br>
-    <!-- Page Content -->
     <div class="container">
-
         <div class="row">
-
             <div class="col-lg-3">
-                <h1 class="my-4">Menú:</h1>
-
                 <div class="list-group">
-                    <a href="#" class="list-group-item">Iphone</a>
-                    <a href="#" class="list-group-item">Smartwatch</a>
-                    <a href="#" class="list-group-item">Macbooks</a>
+                    <a href="{% url 'index' %}" class="list-group-item">Inicio</a>
+                    <a href="{% url 'lista_productos' %}" class="list-group-item">Todos los productos</a>
+                        {% for categoria in categorias %}
+                            <a href="{% url 'lista_productos' %}?categoria={{ categoria.nombre }}" class="list-group-item">{{ categoria.nombre }}</a>
+                        {% endfor %}
                 </div>
             </div>
-            <!-- /.col-lg-3 -->
-
             <div class="col-lg-9">
-
-                <!-- Block Content -->
                 {% block content %}{% endblock %}
-                <!-- /Block Content -->
-
             </div>
-            <!-- /.col-lg-9 -->
-
         </div>
-        <!-- /.row -->
-
     </div>
-    <!-- /.container -->
-
-    <!-- Footer -->
     <footer class="py-5">
         <div class="container">
             <p class="m-0">Copyright &copy; iShop 2023</p>
         </div>
-        <!-- /.container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript -->
     <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
