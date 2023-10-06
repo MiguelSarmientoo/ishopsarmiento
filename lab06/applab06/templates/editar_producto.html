@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="container mt-4">
+        <h2>Editar Producto</h2>
+        <form method="post" enctype="multipart/form-data" action="{% url 'editar_producto' producto.id %}" class="needs-validation" novalidate>
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label for="id_categoria" class="form-label">Categoría:</label>
+                <select name="categoria" id="id_categoria" class="form-select" required>
+                    {% for categoria in categorias %}
+                        <option value="{{ categoria.id }}" {% if categoria.id == producto.categoria.id %}selected{% endif %}>{{ categoria.nombre }}</option>
+                    {% endfor %}
+                </select>
+                <div class="invalid-feedback">
+                    Por favor, selecciona una categoría.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="id_nombre" class="form-label">Nombre:</label>
+                <input type="text" name="nombre" id="id_nombre" value="{{ producto.nombre }}" class="form-control" required>
+                <div class="invalid-feedback">
+                    Por favor, ingresa un nombre.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="id_precio" class="form-label">Precio:</label>
+                <input type="number" name="precio" id="id_precio" value="{{ producto.precio }}" class="form-control" required>
+                <div class="invalid-feedback">
+                    Por favor, ingresa un precio válido.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="id_stock" class="form-label">Stock:</label>
+                <input type="number" name="stock" id="id_stock" value="{{ producto.stock }}" class="form-control" required>
+                <div class="invalid-feedback">
+                    Por favor, ingresa una cantidad de stock.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="id_image" class="form-label">Imagen Actual:</label>
+                <img src="{{ producto.image.url }}" alt="{{ producto.nombre }}" style="max-width: 200px; max-height: 200px;">
+            </div>
+
+            <div class="mb-3">
+                <label for="id_nueva_imagen" class="form-label">Nueva Imagen:</label>
+                <input type="file" name="image" id="id_nueva_imagen" class="form-control" accept="image/*">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        </form>
+    </div>
+    <script>
+        // Agregar lógica de validación con Bootstrap
+        (function () {
+            'use strict';
+
+            var forms = document.querySelectorAll('.needs-validation');
+
+            Array.from(forms).forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    } else {
+                        // Si el formulario es válido, desactivar la validación y enviar el formulario
+                        form.classList.remove('was-validated');
+                    }
+                }, false);
+            });
+        })();
+    </script>
+{% endblock %}

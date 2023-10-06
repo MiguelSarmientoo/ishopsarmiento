@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+{% block content %}
+<div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner" role="listbox">
+        <div class="carousel-item active">
+            <img class="d-block img-fluid" src="https://ishopmx.vtexassets.com/assets/vtex.file-manager-graphql/images/dc515ee4-4a06-465a-8aef-0f797cdf4802___52db6aa75089f8ff6ec5826242e7ca59.jpg" alt="First slide" style="max-width: 100%; height: auto;">
+        </div>
+        <div class="carousel-item">
+            <img class="d-block img-fluid" src="https://ishopmx.vtexassets.com/assets/vtex.file-manager-graphql/images/f47389db-6d99-4d0d-979e-85545be0b7ce___50f23825bd0582bab64816a5fc0d3de5.jpg" alt="Second slide">
+        </div>
+        <div class="carousel-item">
+            <img class="d-block img-fluid" src="https://ishopmx.vtexassets.com/assets/vtex.file-manager-graphql/images/e89e2ed5-e7f1-4f09-8b4a-f26c7554d9c9___a409efbe98fbc16a2139aff8b2ce8f5e.jpg" alt="Third slide">
+        </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+
+<div class="row">
+  {% for prod in product_list %}
+  <div class="col-lg-4 col-md-6 mb-4">
+      <div class="card h-100 bg-light">
+          <a href="#"><img class="card-img-top" src="{{ prod.image.url }}" alt=""></a>
+          <div class="card-body">
+              <h4 class="card-title font-weight-bold text-primary">
+                  <a href="{% url 'detalles_producto' prod.id %}" class="text-decoration-none">{{ prod.nombre }}</a>
+              </h4>
+              <h5 class="font-weight-bold text-success">S/ {{ prod.precio }}</h5>
+              <p class="card-text text-muted">{{ prod.categoria.nombre }}</p>
+          </div>
+          <div class="card-footer bg-light">
+              <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+              <div class="mt-2">
+                  <a href="{% url 'editar_producto' prod.id %}" class="btn btn-outline-primary btn-sm mr-2">Editar</a>
+                  <a href="{% url 'eliminar_producto' prod.id %}" class="btn btn-outline-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este producto?')">Eliminar</a>
+              </div>
+          </div>
+      </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}
